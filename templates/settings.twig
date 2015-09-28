@@ -1,0 +1,12 @@
+{% import "_includes/forms" as forms %}
+
+<div class="item" data-colspan="1">
+  {{ forms.textField({
+    label: "Cache Duration"|t,
+    id: 'cacheDuration',
+    name: 'cacheDuration',
+    value: settings.cacheDuration,
+    errors: settings.getErrors('cacheDuration'),
+    instructions: "Cache duration in minutes. Enter 0 to disable cache."|t
+  }) }}
+</div>
