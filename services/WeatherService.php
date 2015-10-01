@@ -7,13 +7,13 @@ use Guzzle\Http\Exception\CurlException;
 
 class WeatherService extends BaseApplicationComponent
 {
-	public function findById($id = "")
+	public function findById($id = "", $options = array())
   {
 		$settings = craft()->plugins->getPlugin('weather')->getSettings();
 
 		$data = craft()->cache->get("weather-id-{$id}");
 		if(!$data) {
-			if($data = $this->_fetchById($id)) {
+			if($data = $this->_fetchById($id, $options)) {
 				if( !craft()->cache->set("weather-id-{$id}", $data, intval($settings->cacheDuration) * 60) ) {
 					WeatherPlugin::log("Could not write to cache", LogLevel::Error);
 				}
@@ -25,12 +25,15 @@ class WeatherService extends BaseApplicationComponent
 		return $data;
   }
 
-	protected function _fetchById($id)
+	protected function _fetchById($id, $options)
 	{
 		$settings = craft()->plugins->getPlugin('weather')->getSettings();
 
 		try {
 			$client = new Client('http://api.openweathermap.org');
+			foreach($options as $key => $value) {
+				$client->setDefaultOption("query/{$key}", $value);
+			}
 			if(isset($settings->apiKey) && strlen($settings->apiKey) > 0) {
 				$client->setDefaultOption('query/APPID', $settings->apiKey);
 			}
