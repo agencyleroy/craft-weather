@@ -65,6 +65,10 @@ class WeatherPlugin extends BasePlugin
 			'cacheDuration' => array(
 				AttributeType::Number,
 				'default' => 0
+			),
+			'apiKey' => array(
+				AttributeType::String,
+				'default' => ""
 			)
 		);
 	}

@@ -27,8 +27,13 @@ class WeatherService extends BaseApplicationComponent
 
 	protected function _fetchById($id)
 	{
+		$settings = craft()->plugins->getPlugin('weather')->getSettings();
+
 		try {
 			$client = new Client('http://api.openweathermap.org');
+			if(isset($settings->apiKey) && strlen($settings->apiKey) > 0) {
+				$client->setDefaultOption('query/APPID', $settings->apiKey);
+			}
 			$client->setDefaultOption('query/id', $id);
 			$request = $client->get('/data/2.5/weather', array('$e'));
 			$response = $request->send();

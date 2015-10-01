@@ -2,6 +2,17 @@
 
 <div class="item" data-colspan="1">
   {{ forms.textField({
+    label: "API key"|t,
+    id: 'apiKey',
+    name: 'apiKey',
+    value: settings.apiKey,
+    errors: settings.getErrors('apiKey'),
+    instructions: "Your Open Weather Map API key."|t
+  }) }}
+</div>
+
+<div class="item" data-colspan="1">
+  {{ forms.textField({
     label: "Cache Duration"|t,
     id: 'cacheDuration',
     name: 'cacheDuration',
